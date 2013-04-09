@@ -41,15 +41,21 @@ public class Server {
 				clientSock = serverSock.accept();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				System.out.println("Failed to accept client connection.");
 				e.printStackTrace();
+				break; //breaks only work with loops and switch
 			}
 			 
-			Thread t = new Thread(new ClientRunnable());
+			Thread t = new Thread(new ClientRunnable(clientSock));
 			t.start();
 		}
 		// TODO: clean way of shutting down server
 		
-		//serverSock.close();
+		try {
+			serverSock.close();
+		} catch (IOException e) {
+			
+		}
 	}
 
 }
