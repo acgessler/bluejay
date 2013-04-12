@@ -39,6 +39,7 @@ public class ClientRunnable implements Runnable {
 				
 			}
 			return;
+		
 		}
 		// parses data
 		try {
@@ -75,6 +76,7 @@ public class ClientRunnable implements Runnable {
 		if (index != -1) {
 			//extract first word
 			String var = line.substring(0, index).trim(); 
+			boolean isValid = isValidVariableName(var);
 			
 			// todo: also accept values with - or + in front of it
 			
@@ -82,29 +84,80 @@ public class ClientRunnable implements Runnable {
 			String value = line.substring(index + 1).trim();
 			for (int i = 0; i<value.length(); i++) {
 				char c = value.charAt(i);
-				if (Character.isDigit(c) == false) {
+				if (!Character.isDigit(c)) {
 						sendError("Non-numeric value for variable was given.");
 						return;
 				}
 			}
 			
 			//parse integer
-			//Integer.p
+			int intVal;
+			try {
+				intVal = Integer.parseInt(value);
+			} catch (NumberFormatException e) {
+				sendError("Non-numeric value for variable was given.");
+				return;	
+			}
 			
-			// check if valid numeric value is there
-			
-			// put stuff in hashmap
+			saveVariable(var, intVal);
 		}
 		else {
-			//look for value in hashmap to return
+			processPrintVariableRequest(line);
+
 		}
-			//if first word is followed by an = and a signed integer, then 
-			// store first word as entry in hashmap
 		
-			//else sendError(); server returns an error message.
-			//return;
-		
+
 		//else. When the first symbol is anything else, the server returns an error message.
+	}
+
+	/**allows for a-z, A-Z, 0-9 but not at the beginning, and underscore
+	 * 
+	 * @param var
+	 * @return
+	 */
+	private boolean isValidVariableName(String var) {
+		//checks if string is empty 
+		if (var.length() == 0) {
+			return false;
+		}
+		//if not empty, checks if the first symbol is a number
+		if (Character.isDigit(var.charAt(0))) {
+			return false;
+		}
+		//checks whether all the characters are valid
+		for (int i = 0; i < var.length(); i++) {
+			if {
+				
+			}
+			
+			else {
+				return false;
+			}
+			
+		}
+		
+		return true;
+	}
+
+	private void processPrintVariableRequest(String varName) {
+		if (!isValidVariableName(varName)) {
+			sendError("Variable" + varName + "does not exist.");
+			return;
+		}
+		if (!map.containsKey(varName)) {
+			sendError("Variable" + varName + "does not exist.");
+			return;
+		}
+		//send variable value back to client to print out
+		
+	}
+	
+	
+	/**
+	 * puts integer in hashmap map
+	 **/
+	private void saveVariable(String var, int intVal) {
+		map.put(var, intVal);
 	}
 
 	//creates variable and assigns parsed value to it
