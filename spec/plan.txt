@@ -1,0 +1,20 @@
+
+Milestone 1:
+============
+
+Rought checklist of what we want:
+
+a) A basic server that handles the following string commands:
+ "<someVariableName> = <someNumber>"
+ "<someVariableName>"
+The first command creates a named variable on the server and assigns it
+the given number. It then sends the value to the client as a confirmation.
+The second command sends the current value of the given variable to the
+client. In case of errors, the server sends an appropriate error message.
+
+b) A basic client that allows the user to connect to a server and to 
+set and print variables according to the simple protocol from a)
+
+c) some basic tests for the protocol implementation on the server,
+using junit.
+
